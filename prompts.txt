@@ -1,0 +1,30 @@
+SIGNALFORGE AI — AI-ASSISTED DEVELOPMENT LOG
+=============================================
+
+[2026-10-02T04:47:55-04:00]
+
+PROMPT
+Configure the AI development environment before writing application code.
+Use ChatGPT as the AI development tool and establish persistent prompt logging
+throughout the project.
+
+RESPONSE SUMMARY
+Created project-level AI development instructions and established a persistent
+prompt log for documenting AI-assisted development throughout the project.
+
+---------------------------------------------
+
+[2026-10-02T16:33:52-04:00]
+
+PROMPT
+Initialize the SignalForge AI application using Next.js with TypeScript,
+ESLint, Tailwind CSS, the src directory structure, and App Router while
+preserving the existing AI development instructions and prompt log.
+
+RESPONSE SUMMARY
+Initialized the Next.js application foundation with TypeScript, ESLint,
+Tailwind CSS, the src directory structure, and App Router. Preserved
+AGENTS.md and prompts.txt. Verified the application foundation with
+successful ESLint and production build checks.
+
+---------------------------------------------

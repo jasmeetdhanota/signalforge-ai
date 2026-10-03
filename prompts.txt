@@ -48,3 +48,28 @@ visibility, status communication, and a clear submission path while intentionall
 deferring persistence and AI integration to later validated stages.
 
 ---------------------------------------------
+
+[2026-10-03T00:57:13-04:00]
+
+PROMPT
+Introduce persistent storage for SignalForge AI using Supabase/PostgreSQL.
+Replace the temporary client-side feature request state with a database-backed
+workflow so existing requests can be retrieved from persistent storage and newly
+submitted requests remain available across page refreshes and browser sessions.
+
+Preserve the validated request discovery, search, filtering, support visibility,
+and responsive submission experience. Keep database access secure, handle
+loading and error states clearly, and do not expose credentials in source control.
+Keep AI analysis and recommendation logic out of this phase.
+
+RESPONSE SUMMARY
+Integrated Supabase/PostgreSQL persistence for feature requests, replacing the
+temporary mock-data workflow with database-backed retrieval and submission.
+Added secure browser-side Supabase configuration, database constraints and RLS
+policies, loading and error states, and reproducible migration and seed files.
+Validated search and filtering against persisted data and confirmed end-to-end
+persistence by submitting a request, refreshing the application, and verifying
+the stored record in Supabase. Credentials remain excluded from source control,
+and AI intelligence remains intentionally deferred to a later focused phase.
+
+---------------------------------------------

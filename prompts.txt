@@ -177,3 +177,53 @@ the implementation with ESLint, a successful production build, and visual
 runtime testing.
 
 ---------------------------------------------
+
+[2026-10-03T18:35:28-04:00]
+
+PROMPT
+Prepare SignalForge AI for final technical-assessment submission. Polish the
+existing product experience and documentation without adding unnecessary new
+features or changing the validated core workflow.
+
+Ensure product language accurately reflects the implemented system, document
+the architecture and local setup, explain how Gemini-powered intelligence and
+transparent prioritization work together, preserve the boundary between AI
+recommendations and human product decisions, document key tradeoffs and risks,
+and define measurable success criteria for the product.
+
+RESPONSE SUMMARY
+Started the final polish and submission-readiness phase on a dedicated branch.
+Planned a focused pass covering product wording, documentation, architecture,
+local setup, AI and human decision boundaries, success metrics, technical
+tradeoffs, repository safety, and final application validation.
+
+---------------------------------------------
+
+[2026-10-03T18:55:10-04:00]
+
+PROMPT
+Complete and validate the final polish and submission-readiness phase for
+SignalForge AI.
+
+Ensure product terminology accurately reflects implemented behavior, provide
+safe and reproducible local setup documentation, clearly explain the AI
+architecture and human decision boundary, document product tradeoffs and
+proposed success metrics, and verify that the completed application remains
+stable and presentation-ready for the technical assessment.
+
+RESPONSE SUMMARY
+Completed the final polish and submission-readiness phase. Refined product
+language to accurately represent AI-analyzed requests, request ordering, and AI
+reasoning; improved support-button accessibility; added a safe environment
+variable template; and replaced the development-stage README with final
+documentation covering the product workflow, architecture, AI integration,
+explainable prioritization, human judgment boundary, local setup, resilience,
+tradeoffs, success metrics, and AI-assisted development process.
+
+Reviewed environment-variable handling and dependency audit results without
+introducing a breaking forced dependency change. Validated the completed
+application with ESLint, a successful production build, git diff checks, and
+final local smoke testing across request discovery, filtering, AI intelligence,
+and explainable decision-support experiences.
+
+---------------------------------------------

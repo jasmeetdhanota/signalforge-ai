@@ -124,7 +124,7 @@ export function RequestCard({
 
               <div className="mt-4 border-t border-violet-100 pt-4">
                 <p className="text-xs font-medium text-slate-500">
-                  Why SignalForge connected it
+                  AI reasoning
                 </p>
 
                 <p className="mt-1 text-sm leading-6 text-slate-600">
@@ -190,6 +190,9 @@ export function RequestCard({
           type="button"
           onClick={() => onSupport(request.id)}
           aria-pressed={supported}
+          aria-label={`${supported ? "Remove support from" : "Support"} ${
+            request.title
+          }. ${supportCount} support signals`}
           className={`flex min-w-24 items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition ${
             supported
               ? "border-slate-950 bg-slate-950 text-white"

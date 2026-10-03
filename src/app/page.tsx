@@ -202,7 +202,7 @@ export default function Home() {
 
   const totalThemes = new Set(requests.map((request) => request.theme)).size;
 
-  const totalCustomerNeeds = requests.filter(
+  const totalAnalyzedRequests = requests.filter(
     (request) => request.intelligence !== undefined,
   ).length;
 
@@ -248,8 +248,8 @@ export default function Home() {
             <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4">
               <Metric label="Requests" value={String(requests.length)} />
               <Metric
-                label="Customer needs"
-                value={String(totalCustomerNeeds)}
+                label="AI analyzed"
+                value={String(totalAnalyzedRequests)}
               />
               <Metric label="Support signals" value={String(totalSupport)} />
               <Metric label="Themes" value={String(totalThemes)} />
@@ -291,7 +291,7 @@ export default function Home() {
               </p>
 
               <p className="hidden text-xs text-slate-400 sm:block">
-                Ranked by customer signal
+                Newest signals first
               </p>
             </div>
 

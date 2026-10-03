@@ -131,6 +131,57 @@ export function RequestCard({
                   {request.intelligence.reasoning}
                 </p>
               </div>
+
+              {request.priorityRecommendation && (
+                <div className="mt-4 border-t border-violet-100 pt-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                        Decision support
+                      </p>
+
+                      <p className="mt-1 text-sm font-medium text-slate-900">
+                        Recommended priority:{" "}
+                        <span className="text-violet-700">
+                          {request.priorityRecommendation.priority}
+                        </span>
+                      </p>
+                    </div>
+
+                    <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-600">
+                      Human review required
+                    </span>
+                  </div>
+
+                  <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                    <DecisionSignal
+                      label="Customer demand"
+                      value={request.priorityRecommendation.demand}
+                    />
+
+                    <DecisionSignal
+                      label="Recurring need"
+                      value={request.priorityRecommendation.recurrence}
+                    />
+
+                    <DecisionSignal
+                      label="AI confidence"
+                      value={`${Math.round(
+                        request.priorityRecommendation.confidence * 100,
+                      )}%`}
+                    />
+                  </div>
+
+                  <p className="mt-4 text-sm leading-6 text-slate-600">
+                    {request.priorityRecommendation.reasoning}
+                  </p>
+
+                  <p className="mt-3 text-xs leading-5 text-slate-500">
+                    Recommendation only — product strategy, effort, risk, and
+                    business context remain human decisions.
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -150,5 +201,19 @@ export function RequestCard({
         </button>
       </div>
     </article>
+  );
+}
+
+interface DecisionSignalProps {
+  label: string;
+  value: string;
+}
+
+function DecisionSignal({ label, value }: DecisionSignalProps) {
+  return (
+    <div className="rounded-lg border border-violet-100 bg-white px-3 py-3">
+      <p className="text-xs text-slate-500">{label}</p>
+      <p className="mt-1 text-sm font-semibold text-slate-900">{value}</p>
+    </div>
   );
 }

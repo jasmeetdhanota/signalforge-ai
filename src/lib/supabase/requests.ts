@@ -1,3 +1,4 @@
+import { getPriorityRecommendation } from "@/lib/prioritization";
 import { createClient } from "@/lib/supabase/client";
 import { FeatureRequest, RequestStatus, RequestTheme } from "@/types/request";
 
@@ -41,7 +42,7 @@ function getRequestAnalysis(
 export function mapFeatureRequestRow(row: FeatureRequestRow): FeatureRequest {
   const analysis = getRequestAnalysis(row.request_analyses);
 
-  return {
+  const request: FeatureRequest = {
     id: row.id,
     title: row.title,
     description: row.description,
@@ -60,6 +61,10 @@ export function mapFeatureRequestRow(row: FeatureRequestRow): FeatureRequest {
         }
       : undefined,
   };
+
+  request.priorityRecommendation = getPriorityRecommendation(request);
+
+  return request;
 }
 
 export async function getFeatureRequests(): Promise<FeatureRequest[]> {

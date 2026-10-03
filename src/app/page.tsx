@@ -1,22 +1,63 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { AppHeader } from "@/components/app-header";
 import { RequestCard } from "@/components/request-card";
 import { RequestFilter, RequestFilters } from "@/components/request-filters";
 import { RequestSearch } from "@/components/request-search";
 import { SubmitRequestModal } from "@/components/submit-request-modal";
-import { mockRequests } from "@/data/mock-requests";
+import {
+  createFeatureRequest,
+  getFeatureRequests,
+} from "@/lib/supabase/requests";
+import { FeatureRequest } from "@/types/request";
 
 export default function Home() {
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
-  const [requests, setRequests] = useState(mockRequests);
+  const [requests, setRequests] = useState<FeatureRequest[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState<RequestFilter>("All");
   const [supportedRequests, setSupportedRequests] = useState<Set<string>>(
     new Set(),
   );
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadRequests() {
+      try {
+        setIsLoading(true);
+        setLoadError(null);
+
+        const featureRequests = await getFeatureRequests();
+
+        if (isMounted) {
+          setRequests(featureRequests);
+        }
+      } catch (error) {
+        if (isMounted) {
+          setLoadError(
+            error instanceof Error
+              ? error.message
+              : "Unable to load feature requests.",
+          );
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    loadRequests();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const filteredRequests = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
@@ -51,23 +92,17 @@ export default function Home() {
     });
   }
 
-  function handleSubmitRequest({
+  async function handleSubmitRequest({
     title,
     details,
   }: {
     title: string;
     details: string;
   }) {
-    const newRequest = {
-      id: `req-${Date.now()}`,
+    const newRequest = await createFeatureRequest({
       title,
       description: details,
-      theme: "Workflow" as const,
-      status: "New" as const,
-      supportCount: 1,
-      relatedCount: 0,
-      submittedAt: new Date().toISOString().split("T")[0],
-    };
+    });
 
     setRequests((current) => [newRequest, ...current]);
     setSearchQuery("");
@@ -158,8 +193,11 @@ export default function Home() {
           <div className="mt-6">
             <div className="mb-4 flex items-center justify-between">
               <p className="text-sm text-slate-500" aria-live="polite">
-                {filteredRequests.length}{" "}
-                {filteredRequests.length === 1 ? "request" : "requests"} found
+                {isLoading
+                  ? "Loading requests..."
+                  : `${filteredRequests.length} ${
+                      filteredRequests.length === 1 ? "request" : "requests"
+                    } found`}
               </p>
 
               <p className="hidden text-xs text-slate-400 sm:block">
@@ -167,7 +205,26 @@ export default function Home() {
               </p>
             </div>
 
-            {filteredRequests.length > 0 ? (
+            {isLoading ? (
+              <div className="rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center">
+                <p className="text-sm font-medium text-slate-600">
+                  Loading customer signals...
+                </p>
+              </div>
+            ) : loadError ? (
+              <div
+                role="alert"
+                className="rounded-2xl border border-red-200 bg-red-50 px-6 py-16 text-center"
+              >
+                <h3 className="text-base font-semibold text-red-900">
+                  Unable to load requests
+                </h3>
+
+                <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-red-700">
+                  {loadError}
+                </p>
+              </div>
+            ) : filteredRequests.length > 0 ? (
               <div className="space-y-4">
                 {filteredRequests.map((request) => (
                   <RequestCard

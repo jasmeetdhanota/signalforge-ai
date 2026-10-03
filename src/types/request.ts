@@ -7,6 +7,13 @@ export type RequestTheme =
   | "Mobile"
   | "Collaboration";
 
+export interface RequestIntelligence {
+  customerNeed: string;
+  suggestedTheme: RequestTheme;
+  reasoning: string;
+  confidence: number;
+}
+
 export interface FeatureRequest {
   id: string;
   title: string;
@@ -17,4 +24,5 @@ export interface FeatureRequest {
   relatedCount: number;
   submittedAt: string;
   trending?: boolean;
+  intelligence?: RequestIntelligence;
 }

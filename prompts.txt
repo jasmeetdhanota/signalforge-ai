@@ -73,3 +73,58 @@ the stored record in Supabase. Credentials remain excluded from source control,
 and AI intelligence remains intentionally deferred to a later focused phase.
 
 ---------------------------------------------
+
+[2026-10-03T14:38:50-04:00]
+
+PROMPT
+Introduce the first AI intelligence layer for SignalForge AI using Google
+Gemini. Analyze persisted feature requests to identify the underlying customer
+need, classify the request theme, and detect meaningfully related existing
+customer signals.
+
+Keep AI-generated analysis explainable and clearly separate it from human
+product decisions. Preserve the existing Supabase-backed request workflow,
+keep Gemini credentials server-side, and handle AI failures gracefully without
+preventing a customer request from being submitted.
+
+RESPONSE SUMMARY
+Started the AI request-intelligence phase on a dedicated feature branch.
+Planned a server-side Gemini integration focused on customer-need extraction,
+theme classification, related-signal detection, and explainable analysis while
+preserving the existing persistent request workflow and keeping AI credentials
+out of browser code.
+
+---------------------------------------------
+
+[2026-10-03T17:50:18-04:00]
+
+PROMPT
+Complete and validate the AI request-intelligence workflow for SignalForge AI.
+Integrate server-side Gemini analysis with the persisted feature-request flow,
+surface explainable AI intelligence in the product experience, and ensure newly
+submitted requests remain reliable even when AI services are temporarily
+unavailable.
+
+Keep the original customer signal separate from AI interpretation. Persist
+underlying customer needs, suggested themes, reasoning, confidence, and related
+request relationships. Update completed analysis in the UI without requiring a
+page refresh, and use only real persisted AI results for customer-need metrics.
+
+RESPONSE SUMMARY
+Completed the first end-to-end AI intelligence layer for SignalForge AI. Added
+server-side Gemini integration with retry and model fallback handling, privileged
+server-side Supabase access, persisted request analyses and relationships, and
+graceful degradation when Gemini is unavailable. Integrated background analysis
+with the feature-request submission workflow so requests are saved independently
+of AI availability.
+
+Extended the request model and Supabase retrieval flow to expose persisted AI
+intelligence and real relationship counts. Added an explainable AI Intelligence
+section that keeps the original customer signal separate from AI-suggested
+themes, customer needs, confidence, and reasoning. New analyses now update the
+request card live without a browser refresh, and the Customer needs metric is
+derived only from requests with completed AI intelligence. Validated the full
+workflow through Supabase persistence checks, live UI submissions, ESLint, and
+successful production builds.
+
+---------------------------------------------

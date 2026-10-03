@@ -14,6 +14,18 @@ export interface RequestIntelligence {
   confidence: number;
 }
 
+export type RecommendedPriority = "High" | "Medium" | "Low";
+
+export type SignalStrength = "Strong" | "Moderate" | "Emerging";
+
+export interface PriorityRecommendation {
+  priority: RecommendedPriority;
+  demand: SignalStrength;
+  recurrence: SignalStrength;
+  confidence: number;
+  reasoning: string;
+}
+
 export interface FeatureRequest {
   id: string;
   title: string;
@@ -25,4 +37,5 @@ export interface FeatureRequest {
   submittedAt: string;
   trending?: boolean;
   intelligence?: RequestIntelligence;
+  priorityRecommendation?: PriorityRecommendation;
 }

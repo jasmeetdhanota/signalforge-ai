@@ -128,3 +128,52 @@ workflow through Supabase persistence checks, live UI submissions, ESLint, and
 successful production builds.
 
 ---------------------------------------------
+
+[2026-10-03T18:08:31-04:00]
+
+PROMPT
+Build an explainable prioritization workflow for SignalForge AI that turns
+persisted customer-request intelligence into actionable product recommendations.
+
+Use the existing request signals and AI analysis to evaluate requests using
+clear product criteria, surface a recommended priority with concise reasoning,
+and preserve human judgment over the final product decision. Keep AI
+recommendations visibly separate from customer-submitted data and human-owned
+status decisions.
+
+RESPONSE SUMMARY
+Started the explainable-prioritization phase on a dedicated feature branch.
+Planned a focused decision-support workflow that builds on persisted customer
+signals and AI intelligence while keeping recommendations transparent and
+leaving final prioritization decisions with the product team.
+
+---------------------------------------------
+
+[2026-10-03T18:23:20-04:00]
+
+PROMPT
+Complete and validate the explainable prioritization workflow for SignalForge AI.
+Use persisted customer demand, related-request signals, and AI confidence to
+produce transparent priority recommendations without allowing AI to make the
+final product decision.
+
+Surface the recommendation and its supporting evidence directly alongside the
+existing AI intelligence, preserve the distinction between customer input, AI
+interpretation, and product-team judgment, and ensure newly analyzed requests
+receive decision support without requiring a page refresh.
+
+RESPONSE SUMMARY
+Completed the explainable prioritization and human-review workflow. Added a
+deterministic decision-support layer that evaluates customer demand, recurring
+need signals, and AI-analysis confidence to recommend High, Medium, or Low
+priority without introducing an opaque scoring experience.
+
+Integrated priority recommendations with persisted request retrieval and the
+live AI-analysis flow so analyzed requests receive decision support immediately.
+Added visible evidence for each recommendation, concise prioritization
+reasoning, and an explicit human-review boundary clarifying that product
+strategy, effort, risk, and business context remain human decisions. Validated
+the implementation with ESLint, a successful production build, and visual
+runtime testing.
+
+---------------------------------------------

@@ -7,6 +7,7 @@ import { RequestCard } from "@/components/request-card";
 import { RequestFilter, RequestFilters } from "@/components/request-filters";
 import { RequestSearch } from "@/components/request-search";
 import { SubmitRequestModal } from "@/components/submit-request-modal";
+import { getPriorityRecommendation } from "@/lib/prioritization";
 import {
   createFeatureRequest,
   getFeatureRequests,
@@ -142,20 +143,27 @@ export default function Home() {
       const analysis = result.analysis;
 
       setRequests((current) =>
-        current.map((request) =>
-          request.id === requestId
-            ? {
-                ...request,
-                relatedCount: analysis.relatedRequests.length,
-                intelligence: {
-                  customerNeed: analysis.customerNeed,
-                  suggestedTheme: analysis.suggestedTheme,
-                  reasoning: analysis.reasoning,
-                  confidence: analysis.confidence,
-                },
-              }
-            : request,
-        ),
+        current.map((request) => {
+          if (request.id !== requestId) {
+            return request;
+          }
+
+          const analyzedRequest: FeatureRequest = {
+            ...request,
+            relatedCount: analysis.relatedRequests.length,
+            intelligence: {
+              customerNeed: analysis.customerNeed,
+              suggestedTheme: analysis.suggestedTheme,
+              reasoning: analysis.reasoning,
+              confidence: analysis.confidence,
+            },
+          };
+
+          return {
+            ...analyzedRequest,
+            priorityRecommendation: getPriorityRecommendation(analyzedRequest),
+          };
+        }),
       );
     } catch (error) {
       console.error(

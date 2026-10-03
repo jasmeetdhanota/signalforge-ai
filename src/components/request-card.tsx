@@ -19,6 +19,9 @@ export function RequestCard({
   onSupport,
 }: RequestCardProps) {
   const supportCount = request.supportCount + (supported ? 1 : 0);
+  const confidencePercentage = request.intelligence
+    ? Math.round(request.intelligence.confidence * 100)
+    : null;
 
   return (
     <article className="rounded-2xl border border-slate-200 bg-white p-6 transition hover:border-slate-300 hover:shadow-sm">
@@ -71,6 +74,65 @@ export function RequestCard({
               )}
             </span>
           </div>
+
+          {request.intelligence && (
+            <div className="mt-5 rounded-xl border border-violet-100 bg-violet-50/60 p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <span
+                    aria-hidden="true"
+                    className="flex h-6 w-6 items-center justify-center rounded-md bg-violet-100 text-xs font-semibold text-violet-700"
+                  >
+                    ✦
+                  </span>
+
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-violet-700">
+                    AI intelligence
+                  </p>
+                </div>
+
+                {confidencePercentage !== null && (
+                  <span className="text-xs font-medium text-violet-700">
+                    {confidencePercentage}% confidence
+                  </span>
+                )}
+              </div>
+
+              <div className="mt-4 grid gap-4 md:grid-cols-2">
+                <div>
+                  <p className="text-xs font-medium text-slate-500">
+                    Underlying customer need
+                  </p>
+
+                  <p className="mt-1 text-sm leading-6 text-slate-800">
+                    {request.intelligence.customerNeed}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-xs font-medium text-slate-500">
+                    Suggested theme
+                  </p>
+
+                  <div className="mt-2">
+                    <span className="rounded-full border border-violet-200 bg-white px-2.5 py-1 text-xs font-medium text-violet-700">
+                      {request.intelligence.suggestedTheme}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 border-t border-violet-100 pt-4">
+                <p className="text-xs font-medium text-slate-500">
+                  Why SignalForge connected it
+                </p>
+
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  {request.intelligence.reasoning}
+                </p>
+              </div>
+            </div>
+          )}
         </div>
 
         <button

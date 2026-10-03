@@ -92,6 +92,79 @@ export default function Home() {
     });
   }
 
+  async function analyzeSubmittedRequest(requestId: string) {
+    try {
+      const response = await fetch("/api/analyze-request", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          requestId,
+        }),
+      });
+
+      if (!response.ok) {
+        console.error(
+          `Request analysis could not be started. Status: ${response.status}`,
+        );
+        return;
+      }
+
+      const result = (await response.json()) as {
+        status?: "completed" | "unavailable";
+        analysis?: {
+          customerNeed: string;
+          suggestedTheme: FeatureRequest["theme"];
+          reasoning: string;
+          confidence: number;
+          relatedRequests: {
+            requestId: string;
+            reasoning: string;
+            confidence: number;
+          }[];
+        } | null;
+        message?: string;
+      };
+
+      if (result.status === "unavailable") {
+        console.info(
+          result.message ??
+            "The request was saved, but AI analysis is temporarily unavailable.",
+        );
+        return;
+      }
+
+      if (result.status !== "completed" || !result.analysis) {
+        return;
+      }
+
+      const analysis = result.analysis;
+
+      setRequests((current) =>
+        current.map((request) =>
+          request.id === requestId
+            ? {
+                ...request,
+                relatedCount: analysis.relatedRequests.length,
+                intelligence: {
+                  customerNeed: analysis.customerNeed,
+                  suggestedTheme: analysis.suggestedTheme,
+                  reasoning: analysis.reasoning,
+                  confidence: analysis.confidence,
+                },
+              }
+            : request,
+        ),
+      );
+    } catch (error) {
+      console.error(
+        "The request was saved, but AI analysis could not be started.",
+        error,
+      );
+    }
+  }
+
   async function handleSubmitRequest({
     title,
     details,
@@ -107,6 +180,8 @@ export default function Home() {
     setRequests((current) => [newRequest, ...current]);
     setSearchQuery("");
     setActiveFilter("All");
+
+    void analyzeSubmittedRequest(newRequest.id);
   }
 
   const totalSupport = requests.reduce(
@@ -118,6 +193,10 @@ export default function Home() {
   );
 
   const totalThemes = new Set(requests.map((request) => request.theme)).size;
+
+  const totalCustomerNeeds = requests.filter(
+    (request) => request.intelligence !== undefined,
+  ).length;
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
@@ -160,7 +239,10 @@ export default function Home() {
 
             <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4">
               <Metric label="Requests" value={String(requests.length)} />
-              <Metric label="Customer needs" value="—" />
+              <Metric
+                label="Customer needs"
+                value={String(totalCustomerNeeds)}
+              />
               <Metric label="Support signals" value={String(totalSupport)} />
               <Metric label="Themes" value={String(totalThemes)} />
             </dl>
@@ -263,6 +345,7 @@ function Metric({ label, value }: MetricProps) {
   return (
     <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-4">
       <dt className="text-xs font-medium text-slate-500">{label}</dt>
+
       <dd className="mt-1 text-2xl font-semibold tracking-tight text-slate-950">
         {value}
       </dd>
